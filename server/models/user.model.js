@@ -1,20 +1,23 @@
 import mongoose from "mongoose";
+import pkg from "validator";
+const { isEmail } = pkg;
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, "Username is required"],
       unique: true,
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
       unique: true,
+      validate: [isEmail, "Please enter a valid email"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
   },
   {

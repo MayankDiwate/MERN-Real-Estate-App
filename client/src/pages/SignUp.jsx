@@ -1,8 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const notify = () =>
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
 
   const handleChange = (event) => {
     setFormData({
@@ -11,10 +28,41 @@ const SignUp = () => {
     });
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      setLoading(true);
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      console.log(error.message);
+      navigate("/signIn");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">SignUp</h1>
-      <form className="flex flex-col gap-4" >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           placeholder="Username"
@@ -45,16 +93,19 @@ const SignUp = () => {
             uppercase
             hover:opacity-95
             disabled:opacity-80"
+          onClick={notify}
         >
-          SignUp
+          {loading ? "Loading..." : "Sign Up"}
         </button>
-        <div className="flex gap-1 justify-end">
-          <p>Already have an account?</p>
-          <Link to="/signIn">
-            <span className="text-blue-700">Sign In</span>
-          </Link>
-        </div>
       </form>
+
+      <div className="flex gap-1 justify-end">
+        <p>Already have an account?</p>
+        <Link to="/signIn">
+          <span className="text-blue-700">Sign In</span>
+        </Link>
+      </div>
+      {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
   );
 };
