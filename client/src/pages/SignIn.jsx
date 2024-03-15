@@ -1,11 +1,18 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.user);
 
   const handleChange = (event) => {
     setFormData({
@@ -22,7 +29,7 @@ const SignIn = () => {
     }
 
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -34,15 +41,15 @@ const SignIn = () => {
       const data = await res.json();
 
       if (data.success === false) {
-        setLoading(false);
+        dispatch(signInFailure(data.message));
         toast.error(data.message);
         return;
       }
-      setLoading(false);
+      dispatch(signInSuccess(data.user));
       toast.success(data.message);
       navigate("/");
     } catch (error) {
-      setLoading(false);
+      dispatch(signInFailure(error));
       toast.error(error);
     }
   };
