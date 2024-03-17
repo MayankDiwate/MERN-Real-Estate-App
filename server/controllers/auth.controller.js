@@ -62,7 +62,7 @@ export const signin = async (req, res, next) => {
 
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
-    res.status(200).json({ message: "User logged in successfully", user });
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }

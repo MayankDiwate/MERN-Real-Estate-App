@@ -4,10 +4,9 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { EyeOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FaEye, FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { app } from "../firebase";
@@ -25,7 +24,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const imageRef = useRef(null);
-  const [passwordType, setPasswordType] = useState("password");
   const [file, setFile] = useState(null);
   const [filePerc, setFilePerc] = useState(0);
   const [formData, setFormData] = useState({});
@@ -167,26 +165,17 @@ const Profile = () => {
           disabled
           defaultValue={currentUser.email}
         />
-        <div className="w-full relative">
-          <input
-            type={passwordType}
-            id="password"
-            placeholder="Password"
-            className="border p-3 rounded-lg w-full"
-            onChange={handleChange}
-            defaultValue={currentUser.password}
-          />
-          <span
-            className="absolute right-3 top-4"
-            onClick={() =>
-              passwordType === "password"
-                ? setPasswordType("text")
-                : setPasswordType("password")
-            }
-          >
-            {passwordType === "password" ? <EyeOff size={16} /> : <FaEye />}
-          </span>
-        </div>
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          className="border p-3 rounded-lg w-full"
+          onChange={handleChange}
+        />
+
+        <p className="w-full text-left text-sm text-gray-400">
+          (note: password is not visible but can be updated)
+        </p>
         <button
           className="bg-slate-700 uppercase w-full hover:opacity-95 disabled:opacity-80 text-white p-3 rounded-lg"
           type="submit"
