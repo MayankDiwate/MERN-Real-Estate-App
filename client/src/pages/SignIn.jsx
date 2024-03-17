@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 import {
   signInFailure,
   signInStart,
@@ -12,7 +13,7 @@ const SignIn = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (event) => {
     setFormData({
@@ -42,14 +43,15 @@ const SignIn = () => {
 
       if (data.success === false) {
         dispatch(signInFailure(data.message));
+        console.log(error);
         toast.error(data.message);
         return;
       }
-      dispatch(signInSuccess(data.user));
+      dispatch(signInSuccess(data));
       toast.success(data.message);
       navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error));
+      dispatch(signInFailure(error.message));
       toast.error(error);
     }
   };
@@ -85,6 +87,7 @@ const SignIn = () => {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAuth />
       </form>
 
       <div className="flex gap-1 justify-end mt-2">
