@@ -35,7 +35,7 @@ const OAuth = () => {
 
       const data = await res.json();
       dispatch(signInSuccess(data));
-      toast.success(data.message);
+      toast.success("User signed in successfully");
       naviagte("/");
     } catch (error) {
       dispatch(signInFailure(error));

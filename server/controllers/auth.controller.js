@@ -100,7 +100,7 @@ export const google = async (req, res, next) => {
   }
 };
 
-export const logout = async (req, res, next) => {
+export const signout = async (req, res, next) => {
   try {
     res.clearCookie("token");
     res.status(200).json("User has been logged out!");
