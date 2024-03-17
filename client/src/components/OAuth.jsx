@@ -1,39 +1,44 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { app } from "../firebase.js";
+import { app } from "../firebase";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice";
 
 const OAuth = () => {
-  const [loading, setLoading] = useState(false);
   const naviagte = useNavigate();
+  const dispatch = useDispatch();
 
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
 
-      setLoading(true);
+      dispatch(signInStart());
+
       const res = await fetch("/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: user.displayName,
-          email: user.email,
-          avatar: user.photoURL,
+          name: result.user.displayName,
+          email: result.user.email,
+          avatar: result.user.photoURL,
         }),
       });
 
       const data = await res.json();
-      setLoading(false);
+      dispatch(signInSuccess(data));
       toast.success(data.message);
       naviagte("/");
     } catch (error) {
-      setLoading(false);
+      dispatch(signInFailure(error));
       toast.error(error.message);
     }
   };
@@ -44,7 +49,7 @@ const OAuth = () => {
       type="button"
       className="bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
     >
-      {loading ? "Loading..." : "Sign in with Google"}
+      Sign in with Google
     </button>
   );
 };

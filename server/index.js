@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
@@ -18,6 +19,8 @@ mongoose
   });
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);
