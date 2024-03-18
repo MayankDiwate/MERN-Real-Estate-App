@@ -26,17 +26,14 @@ const Header = () => {
           </form>
           <ul className="flex gap-4 items-center">
             <Link
-              to="/"
-              className="hidden sm:inline hover:underline cursor-pointer text-slate-700"
-            >
-              Home
-            </Link>
-            <Link
               to="/about"
               className="hidden sm:inline hover:underline cursor-pointer text-slate-700"
             >
-              About
+              About Us
             </Link>
+            <button className="hidden sm:inline cursor-pointer bg-green-700 text-white px-3 py-1 rounded">
+              <Link to="/create-listing">Create listing</Link>
+            </button>
             {currentUser ? (
               <Link
                 to="/profile"

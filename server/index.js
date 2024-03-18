@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.route.js";
+import listingRoute from "./routes/listing.route.js";
 import userRoute from "./routes/user.route.js";
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.listen(port, () => {
 
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/listing", listingRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
