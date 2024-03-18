@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { app } from "../firebase";
 import {
   deleteUserFailure,
+  deleteUserStart,
   deleteUserSuccess,
   signOutUserStart,
   updateUserFailure,
@@ -33,6 +34,7 @@ const Profile = () => {
     if (file) {
       handleImageUpload(file);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   const handleChange = (event) => {
@@ -102,6 +104,27 @@ const Profile = () => {
       }
       dispatch(deleteUserSuccess(data));
       toast.success("User logged out successfully");
+      navigate("/signin");
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+      toast.error(error);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        toast.error(data.message);
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      toast.success("User deleted successfully");
       navigate("/signin");
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
@@ -185,7 +208,12 @@ const Profile = () => {
         </button>
       </form>
       <div className="flex justify-between items-center w-full mt-2">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span
+          className="text-red-700 cursor-pointer"
+          onClick={handleDeleteUser}
+        >
+          Delete Account
+        </span>
         <span className="text-red-700 cursor-pointer" onClick={handleSignOut}>
           Sign out
         </span>

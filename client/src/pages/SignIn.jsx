@@ -1,3 +1,4 @@
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +14,7 @@ const SignIn = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [passwordType, setPasswordType] = useState("password");
   const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (event) => {
@@ -67,13 +69,27 @@ const SignIn = () => {
           id="email"
           onChange={handleChange}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-3 rounded-lg"
-          id="password"
-          onChange={handleChange}
-        />
+        <div className="w-full relative">
+          <input
+            type={passwordType}
+            placeholder="Password"
+            className="border p-3 rounded-lg w-full"
+            id="password"
+            onChange={handleChange}
+          />
+          <span
+            onClick={() =>
+              setPasswordType(passwordType === "password" ? "text" : "password")
+            }
+            className="absolute right-3 top-4"
+          >
+            {passwordType === "password" ? (
+              <EyeOff size={16} />
+            ) : (
+              <Eye size={16} />
+            )}
+          </span>
+        </div>
         <button
           className="
             bg-slate-700

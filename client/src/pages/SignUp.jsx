@@ -1,3 +1,4 @@
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import OAuth from "../components/OAuth";
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -53,7 +55,6 @@ const SignUp = () => {
           className="border p-3 rounded-lg"
           id="username"
           required
-          
           onChange={handleChange}
         />
         <input
@@ -64,14 +65,27 @@ const SignUp = () => {
           required
           onChange={handleChange}
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-3 rounded-lg"
-          required
-          id="password"
-          onChange={handleChange}
-        />
+        <div className="w-full relative">
+          <input
+            type={passwordType}
+            placeholder="Password"
+            className="border p-3 rounded-lg w-full"
+            id="password"
+            onChange={handleChange}
+          />
+          <span
+            onClick={() =>
+              setPasswordType(passwordType === "password" ? "text" : "password")
+            }
+            className="absolute right-3 top-4"
+          >
+            {passwordType === "password" ? (
+              <EyeOff size={16} />
+            ) : (
+              <Eye size={16} />
+            )}
+          </span>
+        </div>
         <button
           className="
             bg-slate-700
