@@ -29,9 +29,8 @@ export const signup = async (req, res, next) => {
 
   try {
     await newUser.save();
-    res
-      .status(201)
-      .json({ message: "User created successfully", user: newUser });
+    const { password: pass, ...rest } = newUser._doc;
+    res.status(201).json({ message: "User created successfully", user: rest });
   } catch (error) {
     next(error);
   }
@@ -62,7 +61,8 @@ export const signin = async (req, res, next) => {
 
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
-    res.status(200).json(user);
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }
