@@ -256,7 +256,7 @@ const CreateListing = () => {
                 onChange={handleChange}
                 value={formData.bathrooms}
                 type="number"
-                id="bedrooms"
+                id="bathrooms"
                 min={1}
                 max={5}
                 className="border p-2 border-gray-300 rounded-lg"

@@ -4,11 +4,12 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaPencilAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { app } from "../firebase";
 import {
   deleteUserFailure,
@@ -29,6 +30,7 @@ const Profile = () => {
   const [filePerc, setFilePerc] = useState(0);
   const [formData, setFormData] = useState({});
   const [fileUplaodError, setFileUplaodError] = useState(false);
+  const [listings, setListings] = useState([]);
 
   useEffect(() => {
     if (file) {
@@ -132,6 +134,40 @@ const Profile = () => {
     }
   };
 
+  const handleShowListings = async () => {
+    try {
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+
+      if (data.success === false) {
+        toast.error(data.message);
+        return;
+      }
+
+      setListings(data);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const handleDeleteListing = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        toast.error(data.message);
+        return;
+      }
+      setListings(listings.filter((listing) => listing._id !== listingId));
+      toast.success("Listing deleted successfully");
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -217,6 +253,41 @@ const Profile = () => {
         <span className="text-red-700 cursor-pointer" onClick={handleSignOut}>
           Sign out
         </span>
+      </div>
+      <button className="text-green-700 w-full" onClick={handleShowListings}>
+        Show listings
+      </button>
+
+      <div>
+        {listings &&
+          listings.length > 0 &&
+          listings.map((listing) => (
+            <div
+              key={listing._id}
+              className="my-2 border p-2 border-gray-300 rounded-md flex justify-between"
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  src={listing.imageUrls[0]}
+                  alt={listing.name}
+                  className="w-20 object-cover"
+                />
+                <Link to={`/listing/${listing._id}`}>
+                  <div className="hover:underline truncate font-semibold">
+                    {listing.name}
+                  </div>
+                </Link>
+              </div>
+              <div className="space-x-2 flex items-center">
+                <Link to={`/update-listing/${listing._id}`}>
+                  <Pencil size={18} color="green" />
+                </Link>
+                <button onClick={() => handleDeleteListing(listing._id)}>
+                  <Trash2 size={20} color="red" />
+                </button>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
