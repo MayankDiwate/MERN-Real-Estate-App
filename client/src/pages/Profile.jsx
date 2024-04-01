@@ -273,14 +273,14 @@ const Profile = () => {
                   className="w-20 object-cover"
                 />
                 <Link to={`/listing/${listing._id}`}>
-                  <div className="hover:underline truncate font-semibold">
+                  <div className="hover:underline truncate text-lg font-semibold">
                     {listing.name}
                   </div>
                 </Link>
               </div>
               <div className="space-x-2 flex items-center">
                 <Link to={`/update-listing/${listing._id}`}>
-                  <Pencil size={18} color="green" />
+                  <Pencil size={20} color="green" />
                 </Link>
                 <button onClick={() => handleDeleteListing(listing._id)}>
                   <Trash2 size={20} color="red" />
