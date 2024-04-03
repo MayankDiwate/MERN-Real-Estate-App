@@ -18,6 +18,7 @@ const Header = () => {
         <div className="flex items-center space-x-2">
           <form className="bg-slate-100 p-3 rounded-lg flex items-center">
             <input
+              id="search"
               type="text"
               placeholder="Search..."
               className="bg-transparent focus:outline-none w-30 w-54 md:w-64"

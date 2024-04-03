@@ -273,7 +273,7 @@ const Profile = () => {
                   className="w-20 object-cover"
                 />
                 <Link to={`/listing/${listing._id}`}>
-                  <div className="hover:underline truncate text-lg font-semibold">
+                  <div className="hover:underline truncate text-md font-semibold">
                     {listing.name}
                   </div>
                 </Link>

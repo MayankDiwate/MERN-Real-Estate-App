@@ -46,10 +46,6 @@ const listingSchema = new mongoose.Schema(
       type: Array,
       required: [true, "Image Urls are required"],
     },
-    userRef: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
   },
   {
     timestamps: true,
