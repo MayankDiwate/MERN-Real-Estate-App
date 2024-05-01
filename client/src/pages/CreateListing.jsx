@@ -15,6 +15,7 @@ const CreateListing = () => {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -29,8 +30,6 @@ const CreateListing = () => {
     parking: false,
     furnished: false,
   });
-
-  console.log(formData);
 
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
@@ -124,9 +123,11 @@ const CreateListing = () => {
 
     try {
       if (formData.imageUrls.length < 1)
-        toast.error("Please upload at least one image");
+        return toast.error("Please upload at least one image");
       if (+formData.regularPrice < +formData.discountPrice)
-        toast.error("Discount price must be less than regular price");
+        return toast.error("Discount price must be less than regular price");
+
+      setLoading(true);
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -138,6 +139,7 @@ const CreateListing = () => {
         }),
       });
       const data = await res.json();
+      setLoading(false);
       if (data.success === false) {
         toast.error(data.message);
       }
@@ -146,6 +148,7 @@ const CreateListing = () => {
       navigate(`/listing/${data._id}`);
     } catch (error) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
 
@@ -346,7 +349,10 @@ const CreateListing = () => {
                 ))}
             </div>
           </div>
-          <button className="p-3 bg-slate-600 text-white rounded uppercase hover:shadow-lg disabled:opacity-80">
+          <button
+            className="p-3 bg-slate-600 text-white rounded uppercase hover:shadow-lg disabled:opacity-80"
+            disabled={loading}
+          >
             Create Listing
           </button>
         </div>
