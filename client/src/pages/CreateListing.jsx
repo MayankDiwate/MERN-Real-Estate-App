@@ -31,6 +31,8 @@ const CreateListing = () => {
     furnished: false,
   });
 
+  console.log(formData);
+
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
       setFormData({

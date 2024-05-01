@@ -26,7 +26,6 @@ export default function Listing() {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    console.log(params.listingId);
     const fetchListing = async () => {
       try {
         setLoading(true);
