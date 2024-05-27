@@ -44,4 +44,4 @@ jobs:
         uses: PyriteCloud/redeploy-action@main
         with:
           api-key: ${{ secrets.PYRITE_API_KEY }}
-          deployment-id: ${{ secrets.PYRITE_DEPLOYMENT_ID }}
+          deployment-id: ${{ secrets.PYRITE_SERVER_DEPLOYMENT_ID }}
