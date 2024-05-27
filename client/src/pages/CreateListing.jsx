@@ -130,7 +130,7 @@ const CreateListing = () => {
         return toast.error("Discount price must be less than regular price");
 
       setLoading(true);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`${window.env.API_BASE_URL}/api/listing/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

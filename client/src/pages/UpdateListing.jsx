@@ -34,7 +34,9 @@ const UpdateListing = () => {
 
   useEffect(() => {
     const fetchListing = async () => {
-      const res = await fetch(`/api/listing/${listing_id}`);
+      const res = await fetch(
+        `${window.env.API_BASE_URL}/api/listing/${listing_id}`
+      );
       const data = await res.json();
 
       if (data.success === false) {
@@ -143,16 +145,19 @@ const UpdateListing = () => {
         toast.error("Please upload at least one image");
       if (+formData.regularPrice < +formData.discountPrice)
         toast.error("Discount price must be less than regular price");
-      const res = await fetch(`/api/listing/update/${listing_id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          userRef: currentUser._id,
-        }),
-      });
+      const res = await fetch(
+        `${window.env.API_BASE_URL}/api/listing/update/${listing_id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            userRef: currentUser._id,
+          }),
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         toast.error(data.message);

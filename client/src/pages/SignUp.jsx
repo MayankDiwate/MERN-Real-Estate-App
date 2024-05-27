@@ -22,13 +22,16 @@ const SignUp = () => {
 
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${window.env.API_BASE_URL}${window.env.API_BASE_URL}/api/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       console.log(data.message);
       if (data.success === false) {

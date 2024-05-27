@@ -21,7 +21,7 @@ const OAuth = () => {
 
       dispatch(signInStart());
 
-      const res = await fetch("/api/auth/google", {
+      const res = await fetch(`${window.env.API_BASE_URL}/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
