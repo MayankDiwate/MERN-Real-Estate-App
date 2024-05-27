@@ -23,7 +23,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       const res = await fetch(
-        `${window.env.API_BASE_URL}${window.env.API_BASE_URL}/api/auth/signup`,
+        `${window.env.API_BASE_URL}/api/auth/signup`,
         {
           method: "POST",
           headers: {
