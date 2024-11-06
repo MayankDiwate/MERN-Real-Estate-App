@@ -55,7 +55,7 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(401, "Wrong password!"));
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, "ZvkYYnyM929FM4NW9", {
       expiresIn: "1d",
     });
 
@@ -74,7 +74,7 @@ export const google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: user._id }, "ZvkYYnyM929FM4NW9");
       const { password: pass, ...rest } = user._doc;
       res.cookie("token", token, { httpOnly: true }).status(200).json(rest);
     } else {
