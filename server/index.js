@@ -27,9 +27,6 @@ app.use(
       "https://mern-real-estate-app-beta.vercel.app",
     ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    preflightContinue: true,
   })
 );
 app.use(express.json());
