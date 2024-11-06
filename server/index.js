@@ -22,7 +22,7 @@ mongoose
 
 app.use(
   cors({
-    origin: "https://mern-real-estate-app-ng3u.vercel.app",
+    origin: "mern-real-estate-app-beta.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

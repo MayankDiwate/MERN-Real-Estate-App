@@ -13,7 +13,10 @@ export default function Contact({ listing }) {
     const fetchLandlord = async () => {
       try {
         const res = await fetch(
-          `${window.env.API_BASE_URL}/api/user/${listing.userRef}`
+          `${window.env.API_BASE_URL}/api/user/${listing.userRef}`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         setLandlord(data);

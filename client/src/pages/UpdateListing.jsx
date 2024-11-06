@@ -35,7 +35,10 @@ const UpdateListing = () => {
   useEffect(() => {
     const fetchListing = async () => {
       const res = await fetch(
-        `${window.env.API_BASE_URL}/api/listing/${listing_id}`
+        `${window.env.API_BASE_URL}/api/listing/${listing_id}`,
+        {
+          credentials: "include",
+        }
       );
       const data = await res.json();
 
@@ -152,6 +155,7 @@ const UpdateListing = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({
             ...formData,
             userRef: currentUser._id,
