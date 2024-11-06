@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
@@ -19,25 +20,18 @@ mongoose
     console.log(error);
   });
 
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", [
-    "http://localhost:5173",
-    "https://mern-real-estate-app-beta.vercel.app",
-  ]);
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:5173",
-//       "https://mern-real-estate-app-beta.vercel.app",
-//     ],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://mern-real-estate-8ff31.vercel.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    preflightContinue: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
