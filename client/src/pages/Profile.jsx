@@ -58,7 +58,7 @@ const Profile = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
+
           body: JSON.stringify(formData),
         }
       );
@@ -101,9 +101,10 @@ const Profile = () => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch(`${window.env.API_BASE_URL}/api/auth/signout`, {
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${window.env.API_BASE_URL}/api/auth/signout`,
+        {}
+      );
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
@@ -125,7 +126,6 @@ const Profile = () => {
       const res = await fetch(
         `${window.env.API_BASE_URL}/api/user/delete/${currentUser._id}`,
         {
-          credentials: "include",
           method: "DELETE",
         }
       );
@@ -148,9 +148,7 @@ const Profile = () => {
     try {
       const res = await fetch(
         `${window.env.API_BASE_URL}/api/user/listings/${currentUser._id}`,
-        {
-          credentials: "include",
-        }
+        {}
       );
       const data = await res.json();
 
@@ -170,7 +168,6 @@ const Profile = () => {
       const res = await fetch(
         `${window.env.API_BASE_URL}/api/listing/delete/${listingId}`,
         {
-          credentials: "include",
           method: "DELETE",
         }
       );

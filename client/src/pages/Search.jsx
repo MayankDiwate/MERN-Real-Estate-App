@@ -55,9 +55,7 @@ export default function Search() {
 
       const res = await fetch(
         `${window.env.API_BASE_URL}/api/listing/get?${searchQuery}`,
-        {
-          credentials: "include",
-        }
+        {}
       );
       const data = await res.json();
       if (data.length > 8) {
@@ -130,9 +128,7 @@ export default function Search() {
     const searchQuery = urlParams.toString();
     const res = await fetch(
       `${window.env.API_BASE_URL}/api/listing/get?${searchQuery}`,
-      {
-        credentials: "include",
-      }
+      {}
     );
     const data = await res.json();
     if (data.length < 9) {

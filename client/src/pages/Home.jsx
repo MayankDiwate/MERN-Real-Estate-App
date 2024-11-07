@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
@@ -16,24 +17,20 @@ export default function Home() {
       try {
         const res = await fetch(
           `${window.env.API_BASE_URL}/api/listing/get?offer=true&limit=4`,
-          {
-            credentials: "include",
-          }
+          {}
         );
         const data = await res.json();
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
     const fetchRentListings = async () => {
       try {
         const res = await fetch(
           `${window.env.API_BASE_URL}/api/listing/get?type=rent&limit=4`,
-          {
-            credentials: "include",
-          }
+          {}
         );
         const data = await res.json();
         setRentListings(data);
@@ -47,9 +44,7 @@ export default function Home() {
       try {
         const res = await fetch(
           `${window.env.API_BASE_URL}/api/listing/get?type=sale&limit=4`,
-          {
-            credentials: "include",
-          }
+          {}
         );
         const data = await res.json();
         setSaleListings(data);
